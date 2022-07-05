@@ -39,12 +39,14 @@ export default function Register() {
 
 
   const handleSubmit =  (e) => {
-    e.preventDefault();}
+    e.preventDefault();
+    console.log(user,password)
+  }
   return (
     <section className="blur-container">
-       <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
+       <div  className="background">
+        <div className="shape"></div>
+        <div className="shape"></div>
     </div>
       
 
@@ -53,8 +55,8 @@ export default function Register() {
         {/* //user name */}
         <label htmlFor="username">
           User name
-          {user && validUser && <FontAwesomeIcon icon={faCheck} />}
-          {user && !validUser && <FontAwesomeIcon icon={faTimes} />}
+          {user && validUser && <FontAwesomeIcon  className="check"      icon={faCheck} />}
+          {user && !validUser && <FontAwesomeIcon className="not-check" icon={faTimes} />}
         </label>
         <input
           type="text"
@@ -72,15 +74,17 @@ export default function Register() {
           <br />
           Must begin with a letter.
           <br />
-          Letters, numbers, underscores, hyphens allowed.
+          Letters, numbers,
+          <br />
+          underscores, hyphens allowed.
         </p>
 
         {/* password */}
 
         <label htmlFor="password">
           password
-          {password && validPassword && <FontAwesomeIcon icon={faCheck} />}
-          {password && !validPassword && <FontAwesomeIcon icon={faTimes} />}
+          {password && validPassword && <FontAwesomeIcon   className="check"     icon={faCheck} />}
+          {password && !validPassword && <FontAwesomeIcon  className="not-check" icon={faTimes} />}
         </label>
         <input
           type="password"
@@ -99,7 +103,10 @@ export default function Register() {
           <FontAwesomeIcon icon={faInfoCircle} />
           8 to 24 characters.
           <br />
-          Must include uppercase and lowercase letters, a number and a special
+          Must include uppercase 
+          <br /> and lowercase letters,
+          <br />
+           a number and a special
           character.
           <br />
           Allowed special characters:{" "}
@@ -112,8 +119,8 @@ export default function Register() {
         {/* confirm_password */}
         <label htmlFor="confirm_password">
           confirm_password
-          {matchPwd && validMatchPwd && <FontAwesomeIcon icon={faCheck} />}
-          {matchPwd && !validMatchPwd && <FontAwesomeIcon icon={faTimes} />}
+          {matchPwd && validMatchPwd && <FontAwesomeIcon   className="check"     icon={faCheck} />}
+          {matchPwd && !validMatchPwd && <FontAwesomeIcon  className="not-check" icon={faTimes} />}
         </label>
         <input
           type="password"
@@ -129,7 +136,8 @@ export default function Register() {
           }
         >
           <FontAwesomeIcon icon={faInfoCircle} />
-          Must match the first password input field.
+          Must match the first password
+           <br /> input field.
         </p>
 
         <button disabled={validMatchPwd && validPassword && validUser? false:true}>Sign Up</button>
