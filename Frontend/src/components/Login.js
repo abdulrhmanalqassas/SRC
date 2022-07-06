@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
+
 export default function Login(){
     const { setAuth } = useContext(AuthContext);
 
@@ -13,12 +14,14 @@ export default function Login(){
         userRef.current.focus();
     }, [])
 
-
     const handleSubmit =  (e) => {
         e.preventDefault();
         console.log(user,password)
+        setAuth({password , user})
+        setUser("")
+        setPassword("")
       }
-      setAuth({password , user})
+      
 
 
     return(

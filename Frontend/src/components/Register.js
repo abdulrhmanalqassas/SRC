@@ -5,6 +5,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "../api/axios";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -41,6 +42,25 @@ export default function Register() {
   const handleSubmit =  (e) => {
     e.preventDefault();
     console.log(user,password)
+    // if u gona post .post('/',{data to be post},headers and more)
+    //   const response = await axios.post(LOGIN_URL,
+//     JSON.stringify({ user, pwd }),
+//     {
+//         headers: { 'Content-Type': 'application/json' },
+//         withCredentials: true
+//     }
+// );
+// console.log(JSON.stringify(response?.data));
+    try{
+      axios.get('/')
+  .then(function (response) {
+    // handle success
+    console.log(JSON.stringify(response));
+    console.log(response.data)
+  })
+    }catch(err){
+      console.log(err)
+    }
   }
   return (
     <section className="blur-container">
