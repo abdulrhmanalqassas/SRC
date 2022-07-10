@@ -8,14 +8,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../api/axios";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const ID_REGEX = /[A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const EMAIL_REGX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 export default function Register() {
   const userRef = useRef();
 
+  const [ID, setID] = useState("");
+  const [validID, setValidID] = useState(false);
+  const [IDFocus, setIDFocus] = useState(false);
+
   const [user, setUser] = useState("");
   const [validUser, setValidUser] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
 
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
@@ -34,6 +44,14 @@ export default function Register() {
   }, [user]);
 
   useEffect(() => {
+    setValidID(ID_REGEX.test(ID));
+  }, [ID]);
+
+  useEffect(() => {
+    setValidEmail(EMAIL_REGX.test(email));
+  }, [email]);
+
+  useEffect(() => {
     setValidPassword(PWD_REGEX.test(password));
     setValidMatchPwd(password === matchPwd);
   }, [user, password, matchPwd]);
@@ -44,7 +62,7 @@ export default function Register() {
     console.log(user,password)
     // if u gona post .post('/',{data to be post},headers and more)
     //   const response = await axios.post(LOGIN_URL,
-//     JSON.stringify({ user, pwd }),
+//     JSON.stringify({ ID:idcode,user, pwd,email }),
 //     {
 //         headers: { 'Content-Type': 'application/json' },
 //         withCredentials: true
@@ -52,11 +70,20 @@ export default function Register() {
 // );
 // console.log(JSON.stringify(response?.data));
     try{
-      axios.get('/')
+  //     axios.get('/')
+  // .then(function (response) {
+  //   // handle success
+  //   console.log(JSON.stringify(response));
+  //   console.log(response.data)
+  // })
+  axios.post('/auth/register/', {
+    "id_code": ID,
+   "name": user,
+   "email": email,
+   "password": password
+})
   .then(function (response) {
-    // handle success
-    console.log(JSON.stringify(response));
-    console.log(response.data)
+    console.log(response);
   })
     }catch(err){
       console.log(err)
@@ -98,6 +125,53 @@ export default function Register() {
           <br />
           underscores, hyphens allowed.
         </p>
+
+        {/* //ID */}
+        <label htmlFor="ID">
+          User ID
+          {ID && validID && <FontAwesomeIcon  className="check"      icon={faCheck} />}
+          {ID && !validID && <FontAwesomeIcon className="not-check" icon={faTimes} />}
+        </label>
+        <input
+          type="text"
+          id="ID"
+          onChange={(e) => setID(e.target.value)}
+          autoComplete="off"
+          required
+          onFocus={() => setIDFocus(true)}
+          onBlur={() => setIDFocus(false)}
+        ></input>
+        <p className={IDFocus && ID && !validID ? "hi" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+          4 to 24 characters.
+          <br />
+          
+          ONLY
+          Letters, numbers,
+          <br />
+          underscores, hyphens allowed.
+        </p>
+
+       {/* //email */}
+       <label htmlFor="email">
+          email
+          {email && validEmail && <FontAwesomeIcon  className="check"      icon={faCheck} />}
+          {email && !validEmail && <FontAwesomeIcon className="not-check" icon={faTimes} />}
+        </label>
+        <input
+          type="text"
+          id="email"
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="off"
+          required
+          onFocus={() => setEmailFocus(true)}
+          onBlur={() => setEmailFocus(false)}
+        ></input>
+        <p className={emailFocus && email && !validEmail ? "hi" : "offscreen"}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+          ONLY valid email 
+        </p>
+
 
         {/* password */}
 
