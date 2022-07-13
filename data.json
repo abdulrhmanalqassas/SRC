@@ -1,0 +1,41 @@
+{
+    "abi": [
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "id_card",
+                    "type": "string"
+                },
+                {
+                    "name": "is_vaccinated",
+                    "type": "bool"
+                }
+            ],
+            "name": "setUser",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "getUser",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ],
+    "contract_address": "0xdd37cF5F5917A63205866bd6d4b68EC008d608AF"
+}
