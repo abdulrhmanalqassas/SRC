@@ -22,33 +22,38 @@ export default function Login() {
     e.preventDefault();
     try {
       axios
-        .post("/auth/login/", {
-          id_code: user,
-          password: password,
-        })
+        .post(
+          "/auth/login/",
+          {
+            id_code: user,
+            password: password,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        )
         .then(function (response) {
           console.log(response);
           const token = response.data.token;
-          const ID = response.data.id_code
-          const email = response.data.email
-          const name = response.data.name
-          setAuth({ password, name, email,ID, token });
+          const ID = response.data.id_code;
+          const email = response.data.email;
+          const name = response.data.name;
+          setAuth({ password, name, email, ID, token });
           setUser("");
           setPassword("");
         });
     } catch (err) {
       console.log(err);
       if (!err?.response) {
-        setErrMsg('No Server Response');
-    } else if (err.response?.status === 400) {
-        setErrMsg('Missing Username or Password');
-    } else if (err.response?.status === 401) {
-        setErrMsg('Unauthorized');
-    } else {
-        setErrMsg('Login Failed');
-    }
-    
-
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg("Login Failed");
+      }
     }
   };
 

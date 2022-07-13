@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect,useContext } from "react";
 import {
   faCheck,
   faTimes,
@@ -6,6 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../api/axios";
+import AuthContext from "../context/AuthProvider";
+
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const ID_REGEX = /[A-z0-9-_]{3,23}$/;
@@ -14,6 +16,7 @@ const EMAIL_REGX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 export default function Register() {
   const userRef = useRef();
+  const { setAuth } = useContext(AuthContext);
 
   const [ID, setID] = useState("");
   const [validID, setValidID] = useState(false);
@@ -83,7 +86,11 @@ export default function Register() {
    "password": password
 })
   .then(function (response) {
-    console.log(response);
+    const token = response.data.token;
+          const ID = response.data.id_code;
+          const email = response.data.email;
+          const name = response.data.name;
+          setAuth({ password, name, email, ID, token });
   })
     }catch(err){
       console.log(err)

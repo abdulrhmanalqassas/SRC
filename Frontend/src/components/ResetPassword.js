@@ -4,13 +4,14 @@ import axios from "../api/axios";
 
 
 export default function Login() {
-    const { setAuth } = useContext(AuthContext);
+    // const { setAuth } = useContext(AuthContext);
   
     const userRef = useRef();
   
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");  
     const [errMsg, setErrMsg] = useState("");
+    const [success,setSuccess]= useState("");
   
     useEffect(() => {
       userRef.current.focus();
@@ -21,17 +22,17 @@ export default function Login() {
       try {
         axios
           .post("/auth/login/", {
-            id_code: user,
-            password: password,
+            password:password,
+            confirm_password:newPassword
+          },
+          {
+              headers: { 'Content-Type': 'application/json' },
+              withCredentials: true
           })
           .then(function (response) {
             console.log(response);
-            const token = response.data.token;
-            const ID = response.data.id_code
-            const email = response.data.email
-            const name = response.data.name
-            setAuth({ password, name, email,ID, token });
-            setUser("");
+            setSuccess(response.data)
+            setNewPassword("")
             setPassword("");
           });
       } catch (err) {
@@ -44,6 +45,7 @@ export default function Login() {
           setErrMsg('Unauthorized');
       } else {
           setErrMsg('Login Failed');
+        
       }
       
   
@@ -51,7 +53,9 @@ export default function Login() {
     };
   
     return (
+      
       <section className="blur-container">
+        
         <div className="background">
           <div className="shape"></div>
           <div className="shape"></div>
@@ -60,39 +64,34 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <h1>Reset password</h1>
  
-         
+         {success&&<p>
+          {success}</p>}
           {/* password */}
   
-          <label htmlFor="password">password</label>
+          <label htmlFor="password">New password</label>
           <input
             type="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
+            ref={userRef}
             autoComplete="off"
             required
             value={password}
           ></input>
 
-<label htmlFor="Newpassword">password</label>
+<label htmlFor="Newpassword">Confirm password</label>
           <input
             type="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
+            id="Newpassword"
+            onChange={(e) => setNewPassword(e.target.value)}
             autoComplete="off"
             required
-            value={password}
+            value={newPassword}
           ></input>
   
   
           <button disabled={password && newPassword? false : true}> Login</button>
   
-          <p>
-            Need an Account?
-            <br />
-            {/* <span className="line">
-              <Link to="/register">Sign Up</Link>
-            </span> */}
-          </p>
         </form>
       </section>
     );
