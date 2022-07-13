@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../api/axios";
 import AuthContext from "../context/AuthProvider";
-
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const ID_REGEX = /[A-z0-9-_]{3,23}$/;
@@ -242,6 +242,13 @@ export default function Register() {
         </p>
 
         <button disabled={validMatchPwd && validPassword && validUser? false:true}>Sign Up</button>
+
+        <p>
+                have an Account?<br />
+                <span className="line">
+                    <Link to="/LOGIN">LOGIN</Link>
+                </span>
+            </p>
       </form>
     </section>
   );

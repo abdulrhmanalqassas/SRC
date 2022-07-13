@@ -94,10 +94,11 @@ export default function Login() {
         <p>
           Need an Account?
           <br />
-          {/* <span className="line">
+          <span className="line">
             <Link to="/register">Sign Up</Link>
-          </span> */}
+          </span>
         </p>
+        
       </form>
     </section>
   );

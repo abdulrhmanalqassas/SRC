@@ -7,39 +7,69 @@
 }
 .offscreen {
   position: absolute;
-  left: -9999px;
+  left: -624.9375rem;
 }
 
 body {
   background-color: #080710;
 }
+nav {
+  height: 80px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 18px 101px;
+  font-family: "Raleway";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+nav li {
+  align-items: stretch;
+  float: left;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
 .blur-container .background {
-  width: 430px;
-  height: 520px;
+  width: 26.875rem;
+  height: 32.5rem;
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
 }
 .background .shape {
-  height: 200px;
-  width: 200px;
+  height: 12.5rem;
+  width: 12.5rem;
   position: absolute;
   border-radius: 50%;
 }
 .shape:first-child {
   background: linear-gradient(#1845ad, #23a2f6);
-  left: -80px;
-  top: -80px;
+  left: -5rem;
+  top: -5rem;
 }
 .shape:last-child {
   background: linear-gradient(to right, #ff512f, #f09819);
-  right: -30px;
-  bottom: -80px;
+  right: -1.875rem;
+  bottom: -5rem;
 }
 .blur-container > form {
-  min-height: 520px;
-  min-width: 400px;
+  min-height: 32.5rem;
+  min-width: 25rem;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -50,71 +80,71 @@ body {
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-  padding: 50px 35px;
+  border-radius: 0.625rem;
+  backdrop-filter: blur(0.625rem);
+  border: 0.125rem solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 2.5rem rgba(8, 7, 16, 0.6);
+  padding: 3.125rem 2.1875rem;
 }
 .blur-container > form * {
   font-family: "Poppins", sans-serif;
 
-  letter-spacing: 0.5px;
+  letter-spacing: 0.0313rem;
   outline: none;
   border: none;
 }
-.blur-container form h3 {
+.blur-container form h1 {
   color: #ffffff;
-  font-size: 32px;
+  font-size: 1.8rem;
   font-weight: 500;
-  line-height: 42px;
+  line-height: 2rem;
   text-align: center;
 }
 .blur-container form p {
   color: #ffffff;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 300;
-  line-height: 20px;
+  line-height: 1.25rem;
   text-align: center;
 }
 
 .blur-container label {
   color: #ffffff;
   display: block;
-  margin-top: 30px;
-  font-size: 16px;
+  margin-top: 1.875rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 .blur-container input {
   color: #ffffff;
   display: block;
-  height: 50px;
+  height: 2.7rem;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.07);
-  border-radius: 3px;
-  padding: 0 10px;
-  margin-top: 8px;
-  font-size: 17px;
+  border-radius: 0.1875rem;
+  padding: 0 0.625rem;
+  margin-top: 0.5rem;
+  font-size: 1.0625rem;
   font-weight: 500;
 }
 
 .blur-container button {
-  margin-top: 50px;
+  margin-top: 3.125rem;
   width: 100%;
   background-color: #ffffff;
   color: #080710;
-  padding: 15px 0;
-  font-size: 18px;
+  padding: 0.9375rem 0;
+  font-size: 1.125rem;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: pointer;
 }
 
 .check {
-  margin-left: 15px;
+  margin-left: 0.9375rem;
   color: greenyellow;
 }
 .not-check {
-  margin-left: 15px;
+  margin-left: 0.9375rem;
   color: red;
 }
