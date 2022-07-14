@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import Unauth from './components/Unauth';
 import RequireAuth from "./components/RequireAuth"
 import Land from './components/Land';
+import Verifi from './components/Verifi';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="register" element={<Register />} />
       <Route path="Unauth" element={<Unauth />} />
       <Route path="ResetPassword" element={<ResetPassword />} ></Route>
+      <Route path="verifi" element={<Verifi />} />
 
 
       {/* we want to protect these routes */}
