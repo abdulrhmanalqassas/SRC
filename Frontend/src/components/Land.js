@@ -1,7 +1,7 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import Nav from "./Nav";
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Land() {
   const { auth } = useAuth();
@@ -38,7 +38,7 @@ export default function Land() {
               of the citizens. This system will be implemented and designed to
               ens ure the authenticity and validity of the data using the
               blockchain techn ology and keeping in mind being user friendly and
-              easy to use on any devise that use a w eb browser and almost
+              easy to use on any devise that use a web browser and almost
               impossible to be hacked
             </p>
             <button type="button">Let's Talk</button>
@@ -57,12 +57,12 @@ export default function Land() {
             <h5>VACCINE VERIFICATION </h5>
             <div className="pra">
               <p>
-                Every website should be built with two primary goals: Firstly,
-                it needs to work across all devices. Secondly, it needs to be
-                fast as possible.
+                verify your vaccine state or other (other is only for admin )
               </p>
             </div>
-            <div className="button">VACCINE VERIFICATION</div>
+            <Link to="/Verifi">
+              <div className="button">VACCINE VERIFICATION</div>
+            </Link>
           </div>
 
           <div className="card">
@@ -70,10 +70,12 @@ export default function Land() {
             <h5>VACCINE STATE</h5>
             <div className="pra">
               <p>
-                Every website should b builto work across all devist as
-                possible.
+                change the user vaccine state all over the block chain to Check
+                it all over the world
               </p>
-              <div className="button">change state</div>
+              <Link to="/">
+                <div className="button">change state</div>
+              </Link>
             </div>
           </div>
 
@@ -81,7 +83,10 @@ export default function Land() {
             <i className="far fa-bell"></i>
             <h5>SECURE information</h5>
             <div className="pra">
-              <p>Esecure information lt with two primarork acrble.</p>
+              <p>
+                all of theinformation is SECURE and Save aginst hackers dnd data
+                vilations
+              </p>
             </div>
           </div>
         </div>
