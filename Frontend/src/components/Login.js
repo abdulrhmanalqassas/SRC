@@ -4,6 +4,9 @@ import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const { setAuth } = useContext(AuthContext);
 
   const userRef = useRef();
@@ -17,20 +20,19 @@ export default function Login() {
   useEffect(() => {
     userRef.current.focus();
   }, []);
+  useEffect(() => {
+    console.log(errMsg)
+  }, [errMsg]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
+
       axios
         .post(
           "/auth/login/",
           {
-            id_code: user,
+            email: user,
             password: password,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
           }
         )
         .then(function (response) {
@@ -40,22 +42,27 @@ export default function Login() {
           const email = response.data.email;
           const name = response.data.name;
           setAuth({ password, name, email, ID, token });
+          localStorage.setItem("token",token)
+          localStorage.setItem("ID",ID)
+          localStorage.setItem("name",name)
           setUser("");
           setPassword("");
+          navigate(from, { replace: true });
+        }).catch(err=>
+          {console.log("error msg ",err)
+          console.log(err);
+          if (!err?.response) {
+            setErrMsg("No Server Response");
+          } else if (err.response?.status === 400) {
+            setErrMsg("Missing Username or Password");
+          } else if (err.response?.status === 401) {
+            setErrMsg("rong information");
+          } else {
+            setErrMsg("Login Failed");
+          }
         });
-    } catch (err) {
-      console.log(err);
-      if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
-      } else {
-        setErrMsg("Login Failed");
-      }
-    }
-  };
+    } 
+  ;
 
   return (
     <section className="blur-container">
@@ -66,8 +73,9 @@ export default function Login() {
 
       <form onSubmit={handleSubmit}>
         <h1>Login</h1>
-        {/* //user name */}
-        <label htmlFor="username">ID number</label>
+
+        {errMsg&&<h1>{errMsg}</h1>}
+        <label htmlFor="username">Email</label>
         <input
           type="text"
           id="username"

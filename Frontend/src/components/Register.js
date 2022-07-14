@@ -15,6 +15,9 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 export default function Register() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const userRef = useRef();
   const { setAuth } = useContext(AuthContext);
 
@@ -86,11 +89,17 @@ export default function Register() {
    "password": password
 })
   .then(function (response) {
+    console.log(response)
     const token = response.data.token;
           const ID = response.data.id_code;
           const email = response.data.email;
           const name = response.data.name;
-          setAuth({ password, name, email, ID, token });
+          setAuth({name, email, ID, token });
+          console.log("llllllll",name, email, ID, token)
+          localStorage.setItem("token",token)
+          localStorage.setItem("ID",ID)
+          localStorage.setItem("name",name)
+          navigate(from, { replace: true });
   })
     }catch(err){
       console.log(err)
