@@ -18,11 +18,12 @@ export default function Nav() {
         <Link to="/State">
           <li className="li">Change State</li>
         </Link>
-        <Link to="/Verifi">
+        <Link to="/">
           <li className="li">Home</li>
         </Link>
       </ul>
-      <p className="btn">Subscribe</p>
+      {/* <Link to="/sig"
+      <p className="btn">Subscribe</p> */}
     </nav>
   );
 }
