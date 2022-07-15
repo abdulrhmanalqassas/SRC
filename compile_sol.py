@@ -4,6 +4,7 @@ import solcx
 from web3 import Web3
 from solcx import compile_files, link_code, compile_source
 
+#Sol compiler
 solcx.install_solc(version='0.8.9')
 solcx.set_solc_version('0.8.9')
 # web3.py instance
@@ -36,5 +37,5 @@ def get_contract_interface():
         solcx.compile_source(source)
         contracts = compile_files(['vaccine-card.sol'])
         # separate main file and link file
-        main_contract = contracts.pop("vaccine-card.sol:Vaccine-Records")
+        main_contract = contracts.pop("vaccine-card.sol:vaccineRecords")
         return main_contract

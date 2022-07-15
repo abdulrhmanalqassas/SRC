@@ -17,18 +17,20 @@ from compile_solidity_utils import w3
 from flask import Flask, Response, request, jsonify
 from marshmallow import Schema, fields, ValidationError
 
-file_path = os.path.abspath(os.getcwd())+"\database.db"
+file_path = os.path.abspath(os.getcwd()) + "\database.db"
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+file_path
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
 app.secret_key = 'hze6EPcv0fN_81Bj-nA3d6f45a5fc12445dbac2f59c3b6c7c309f02079d'
 db = SQLAlchemy(app)
 DOMAIN = 'http://localhost:3000/'
 reset_password_url = DOMAIN + 'reset-password?token='
 
+
 @app.before_first_request
 def create_tables():
     db.create_all()
+
 
 class Users(db.Model):
     __tablename__ = 'Users'
@@ -39,10 +41,11 @@ class Users(db.Model):
 
     name = db.Column(db.String(50), unique=False)
 
-
     email = db.Column(db.String(50), unique=True)
 
     password = db.Column(db.String(256), unique=False)
+
+    contract_address=db.Column(db.String(256), unique=False)
 
     user_role = db.Column(db.String(16))
 
@@ -120,8 +123,8 @@ def login():
         'exp': datetime.utcnow() + date.timedelta(minutes=30)},
         current_app.config['SECRET_KEY'])
     response = jsonify(
-        {'token': token, "name": user.name, "email": user.email,"id_code":user.id_code,
-         "api_key": user.key})
+        {'token': token, "name": user.name, "email": user.email, "id_code": user.id_code,
+         "contract_address": user.contract_address})
 
     return response
 
@@ -199,38 +202,45 @@ class VaccineSchema(Schema):
     is_vaccinated = fields.String(required=True)
 
 
-
-# api to set new user every api call
+# api to set new vaccine every api call
 @app.route("/blockchain/create_contract", methods=['POST'])
+@cross_origin()
 def transaction():
-    contract_interface=get_contract_interface()
+    contract_interface = get_contract_interface()
     w3.eth.defaultAccount = w3.eth.accounts[1]
     abi = contract_interface["abi"]
     contract_address = deploy_contract(contract_interface)
     contract = w3.eth.contract(
-    address=contract_address,abi=abi)
+        address=contract_address, abi=abi)
     result = request.get_json()
-    is_vaccinated=result['is_vaccinated']
+    is_vaccinated = result['is_vaccinated']
     tx_hash = contract.functions.setVaccine(
         result['id_code'], is_vaccinated
     ).transact()
     print(tx_hash)
     tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
     print(tx_receipt)
-    user_data = contract.functions.getVaccine().call()
-    return jsonify({"data": user_data,"contract_address":contract_address}), 200
+    vaccine_data = contract.functions.getVaccine().call()
+    user=Users.query.filter_by(id_code=result['id_code']).first()
+    user.contract_address =contract_address
+    db.session.commit()
+    return jsonify({"data": {"id_code": vaccine_data[0], "is_vaccinated": vaccine_data[1]},
+                    "contract_address": contract_address}), 200
+
 
 @app.route("/blockchain/verify-contract", methods=['POST'])
+@cross_origin()
 def verify():
     w3.eth.defaultAccount = w3.eth.accounts[1]
-    data=request.get_json()
-    contract_address=data.get("contract_address","")
+    data = request.get_json()
+    contract_address = data.get("contract_address", "")
     contract_interface = get_contract_interface()
     abi = contract_interface["abi"]
-    try :
+    try:
         contract_instance = w3.eth.contract(address=contract_address, abi=abi)
     except  InvalidAddress:
-        return 'The Vaccine ID does not exist ',404
-    vaccine_data=contract_instance.functions.getUser().call()
+        return 'The Vaccine ID does not exist ', 404
+    vaccine_data = contract_instance.functions.getVaccine().call()
 
-    return jsonify({"data": {"id_code":vaccine_data[0],"is_vaccinated":vaccine_data[1]}}), 200
+    return jsonify({"contract_address": contract_address,
+                    "data": {"id_code": vaccine_data[0], "is_vaccinated": vaccine_data[1]}}), 200
