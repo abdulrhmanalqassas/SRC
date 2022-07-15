@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import Nav from "./Nav";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+// hi from here just testing ....
 export default function Land() {
   const { auth } = useAuth();
   const navigate = useNavigate();
