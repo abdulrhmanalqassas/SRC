@@ -15,8 +15,8 @@ export default function Nav() {
         <Link to="/Verifi">
           <li className="li">VACCINE VERIFICATION</li>
         </Link>
-        <Link to="/Verifi">
-          <li className="li">Home</li>
+        <Link to="/State">
+          <li className="li">Change State</li>
         </Link>
         <Link to="/Verifi">
           <li className="li">Home</li>

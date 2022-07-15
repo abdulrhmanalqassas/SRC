@@ -66,22 +66,9 @@ export default function Register() {
   const handleSubmit =  (e) => {
     e.preventDefault();
     console.log(user,password)
-    // if u gona post .post('/',{data to be post},headers and more)
-    //   const response = await axios.post(LOGIN_URL,
-//     JSON.stringify({ ID:idcode,user, pwd,email }),
-//     {
-//         headers: { 'Content-Type': 'application/json' },
-//         withCredentials: true
-//     }
-// );
-// console.log(JSON.stringify(response?.data));
+   
     try{
-  //     axios.get('/')
-  // .then(function (response) {
-  //   // handle success
-  //   console.log(JSON.stringify(response));
-  //   console.log(response.data)
-  // })
+  
   axios.post('/auth/register/', {
     "id_code": ID,
    "name": user,
@@ -95,7 +82,7 @@ export default function Register() {
           const email = response.data.email;
           const name = response.data.name;
           setAuth({name, email, ID, token });
-          console.log("llllllll",name, email, ID, token)
+          console.log(">>>>>>",name, email, ID, token)
           localStorage.setItem("token",token)
           localStorage.setItem("ID",ID)
           localStorage.setItem("name",name)

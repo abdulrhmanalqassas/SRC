@@ -1,7 +1,6 @@
 pragma solidity ^0.4.21;
 // import library file
 contract Vaccine {
-  // enum type variable to store user gender
 
   // Actual user object which we will store
   struct user{
@@ -10,8 +9,7 @@ contract Vaccine {
   }
   // user object
   user user_obj;
-
-
+  
   // set user public function
   // This is similar to persisting object in db.
   function setVaccine(string id_code, bool is_vaccinated) public {
