@@ -7,12 +7,13 @@ Frontend/.pnp
 .pnp.js
 .exe
 
-BackendAndBlock/node_modules
-
+/BackendAndBlock/node_modules
+/Frontend/node_modules
 # testing
 /coverage
-
+.vscode/
 # production
+.cash
 Frontend/build
 BackendAndBlock/build
 .env
