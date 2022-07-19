@@ -5,6 +5,7 @@
 Frontend/.pnp
 .pnp.js
 .exe
+.cache
 
 /BackendAndBlock/node_modules
 /Frontend/node_modules
