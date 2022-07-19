@@ -27,9 +27,9 @@ export default function Verifi() {
     e.preventDefault();
     axios({
       method: "post", //you can set what request you want to be
-      url: "http://127.0.0.1:5000/blockchain/create_contract",
+      url: "http://127.0.0.1:5000/blockchain/verify-contract",
       data: {
-        id_card: "F04613D339a4C86c",
+
         contract_address: "0xbfB907F863dcF02B13A",
       },
       headers: {
@@ -41,6 +41,13 @@ export default function Verifi() {
         console.log(res)
         setState(res.data.state)
       } 
+    ).catch(
+      (err)=>{
+        if (err.response?.status === 404){
+          setErrMsg("The Vaccine ID does not exist ")
+        }
+      }
+
     );
 
     
@@ -51,21 +58,20 @@ export default function Verifi() {
 
 
     <section style={{display:"block"}} className="blur-container">
-      
-     
 
+{}
       <form onSubmit={handleSubmit}>
-        <h1>VACCINE VERIFICATION</h1>
-        <div
-          style={{
-            background: "white",
-            width: "170px",
-            height:"170px",
-          }}
-        >
-          <QRCode size={150} value={auth.id_cude || localStorage.getItem("ID")} />
-        </div>
-        {errMsg && <h1>{errMsg}</h1>}
+    <h1>VACCINE VERIFICATION</h1>
+    {(auth.id_cude || localStorage.getItem("ID")||"null" )&& <div
+      style={{
+        background: "white",
+        width: "170px",
+        height:"170px",
+      }}
+    >
+      <QRCode size={150} value={auth.id_cude || localStorage.getItem("ID")||"null" } />
+    </div>}
+    {errMsg && <h1 style={{color:"red"}}>{errMsg}</h1>}
         <label htmlFor="username">VACCINE Code</label>
         <input
           type="text"

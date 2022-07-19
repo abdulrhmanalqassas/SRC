@@ -1,8 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import axios from "../api/axios";
 import QRCode from "react-qr-code";
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Nav from "./Nav";
 export default function Verifi() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/Unauth";
   const userRef = useRef();
 
   const [user, setUser] = useState("");
@@ -23,13 +27,15 @@ export default function Verifi() {
 
   
   const handleSubmit = (e) => {
+    
     e.preventDefault();
     axios({
       method: "post", //you can set what request you want to be
-      url: "http://192.168.1.4:5000/blockchain/create_contract",
+      url: "http://127.0.0.1:5000/blockchain/create_contract",
       data: {
         id_code: user,
-        is_vaccinated: state
+        is_vaccinated: true
+        
       },
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -38,9 +44,12 @@ export default function Verifi() {
     }).
     then((res) => { 
         console.log(">>>>>",res.data.contract_address.contract_address)
-        setContract(res.data.contract_address)})
+        setContract(res.data.contract_address)
+      setState("true")
+      })
+        
     .catch(err=>{
-       
+       navigate(from, { replace: true });
         setErrMsg("Failed");
     }
     );
@@ -55,7 +64,7 @@ export default function Verifi() {
         <h1>VACCINE STATE</h1>
 
         {errMsg && <h1 style={{color:"red"}}>{errMsg}</h1>}
-      
+        {state && <h1 style={{color:"green"}}>{state}</h1>}
         <label htmlFor="username">USER ID</label>
         <input
           type="text"
@@ -72,11 +81,12 @@ export default function Verifi() {
             type="checkbox"
             id="state"
             onChange={(e) => {setState(e.target.checked)
+              console.log(">>>>",e.target.checked)
             }}
             autoComplete="off"
             
           ></input>
-          <span class="slider round"></span>
+          <span className="slider round"></span>
         </label>
 
         <button> Change STATE </button>

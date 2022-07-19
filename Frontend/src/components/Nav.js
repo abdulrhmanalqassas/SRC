@@ -22,8 +22,9 @@ export default function Nav() {
           <li className="li">Home</li>
         </Link>
       </ul>
-      {/* <Link to="/sig"
-      <p className="btn">Subscribe</p> */}
+      <Link to="/login">
+      <p className="btn">log Out</p>
+      </Link>
     </nav>
   );
 }

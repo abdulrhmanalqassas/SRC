@@ -72,7 +72,7 @@ export default function Land() {
             <h5>VACCINE STATE</h5>
             <div className="pra">
               <p>
-                change the user vaccine state all over the block chain to Check
+                change the user vaccine state all over the blockchain to Check
                 it all over the world
               </p>
               <Link to="/">
@@ -95,8 +95,11 @@ export default function Land() {
       </div>
 
       <div className="contact-me">
-        <p>Let Me Get You A Beautiful Website.</p>
-        <div className="button-two">Hire Me</div>
+        <p>The coronavirus (COVID-19) vaccines are safe and effective.
+           They give you the best protection against COVID-19.</p>
+        <div className="button-two"><a href="https://www.nhs.uk/conditions/
+        coronavirus-covid-19/coronavirus-vaccination/coronavirus-
+        vaccine/">more about the vaccine</a></div>
       </div>
 
       <footer>
