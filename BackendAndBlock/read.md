@@ -29,7 +29,7 @@ venv\Scripts\activate.bat
 ```
 source env/Scripts/activate
 ```
-## i have deprecated packages:  
+### i have deprecated packages:  
 **pywin32==304** as i am using WSL which is not nessery for this kind of system, still don't know if is going to affect the software or not, but we see.
 
 
