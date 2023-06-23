@@ -12,7 +12,6 @@ npm install -g ganache-cli
 ```
 ### Install enviroment 
 ```
-npm/ 
 pip install virtualenv
 ```
 ### make another inviroment
@@ -22,11 +21,14 @@ virtualenv venv
 ```
 ### Activate the enviroment 
 
-**in windows** 
+**in windows**
+``` 
 venv\Scripts\activate.bat
+```
 **in linux**
+```
 source env/Scripts/activate
-
+```
 ## i have deprecated packages:  
 **pywin32==304** as i am using WSL which is not nessery for this kind of system, still don't know if is going to affect the software or not, but we see.
 
