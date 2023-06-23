@@ -1,4 +1,4 @@
-pip install - r req.txt
+pip install -r req.txt
 
 npm install -g ganache-cli
 

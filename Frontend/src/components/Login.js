@@ -27,6 +27,8 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(axios.get("http://127.0.0.1:3008/echo"))
+
       axios
         .post(
           "/auth/login/",
