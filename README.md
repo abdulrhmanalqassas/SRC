@@ -19,6 +19,8 @@ A simple HTTP server is responsible for authentication, serving stored data, and
 
 - Python3 is selected for implementing the server . 
 - Flask is the web server framework.
+- Ethereum blockchain nodes.
+- Web3 instance represents a connection to an Ethereum node using websockets API
 
 ### Auth : 
 for v1 , a simple JWT-based auth mechanism is to be used (ACCESS and REFRESH token), with passwords encrypted and stored in the database. OAuth is to be added initially or later for Google + Facebook . 
