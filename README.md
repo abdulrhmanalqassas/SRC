@@ -22,6 +22,17 @@ A simple HTTP server is responsible for authentication, serving stored data, and
 - Ethereum blockchain nodes.
 - Web3 instance represents a connection to an Ethereum node using websockets API
 
+### Why Ethereum
+you may have heard about NFTs : 
+**NFTs** 
+```
+NFTs, or Non-Fungible Tokens, are a type of digital asset that represent ownership of a unique item or piece of content, such as a piece of artwork, a music file, or a collectible
+``` 
+yeh, you may got it now, that is excatly what we want, the same idea we use in our system -the ownership of products- 
+so, it is preffered to use the same technology that NFTs uses, which is Ethereum. 
+that is simply why we use Ethereum here.
+
+
 ### Auth : 
 for v1 , a simple JWT-based auth mechanism is to be used (ACCESS and REFRESH token), with passwords encrypted and stored in the database. OAuth is to be added initially or later for Google + Facebook . 
 
