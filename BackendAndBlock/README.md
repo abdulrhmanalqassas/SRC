@@ -31,6 +31,7 @@ source env/Scripts/activate
 ```
 ### i have deprecated packages:  
 **pywin32==304** as i am using WSL which is not nessery for this kind of system, still don't know if it is going to affect the software or not, but we see.
+**NOTE** you may need to add **pywin32==304** into req.txt if you uses Windows OS
 
 
 # DATABASE SCHEMA 
