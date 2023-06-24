@@ -28,7 +28,7 @@ A simple HTTP server is responsible for authentication, serving stored data, and
 NFTs, or Non-Fungible Tokens, are a type of digital asset that represent ownership of a unique item or piece of content, such as a piece of artwork, a music file, or a collectible
 
 ``` 
-yeh, you may got it now, that is excatly what we want, the same idea we use in our system -the ownership of products- 
+yeh, you may got it now, that is excatly what we want, the same idea we use in our system **the ownership of products** 
 so, it is preffered to use the same technology that NFTs uses, which is Ethereum. 
 that is simply why we use Ethereum here.
 
