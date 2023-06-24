@@ -23,7 +23,6 @@ A simple HTTP server is responsible for authentication, serving stored data, and
 - Web3 instance represents a connection to an Ethereum node using websockets API
 
 ### Why Ethereum
-you may have heard about NFTs : 
 **NFTs** :
 ```
 NFTs, or Non-Fungible Tokens, are a type of digital asset that represent ownership of a unique item or piece of content, such as a piece of artwork, a music file, or a collectible
