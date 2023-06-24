@@ -11,16 +11,15 @@ from web3.exceptions import InvalidAddress
 from werkzeug.exceptions import InternalServerError
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-
 from compile_sol import get_contract_interface, deploy_contract
 from compile_solidity_utils import w3
 from flask import Flask, Response, request, jsonify
 from marshmallow import Schema, fields, ValidationError
+import random, string
 
-file_path = os.path.abspath(os.getcwd()) + "\database.db"
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + 'blockchain.db'
 app.secret_key = 'hze6EPcv0fN_81Bj-nA3d6f45a5fc12445dbac2f59c3b6c7c309f02079d'
 db = SQLAlchemy(app)
 DOMAIN = 'http://localhost:3000/'
@@ -30,6 +29,10 @@ reset_password_url = DOMAIN + 'reset-password?token='
 @app.before_first_request
 def create_tables():
     db.create_all()
+
+def random_ID(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 
 
 class Users(db.Model):
@@ -53,11 +56,13 @@ class Users(db.Model):
     def authenticate(cls, **kwargs):
         email = kwargs.get('email')
         password = kwargs.get('password')
-
+        print(email)
+        print(password)
         if not email or not password:
             return None
 
         user = cls.query.filter_by(email=email).first()
+        print(user)
         if not user or not check_password_hash(user.password, password):
             return None
 
@@ -109,6 +114,14 @@ def token_required(f):
     return _verify
 
 
+@app.route('/', methods=('GET',))
+@cross_origin()
+def sayHi(): 
+    
+    return "Hello world "
+
+
+
 @app.route('/auth/login/', methods=('POST',))
 @cross_origin()
 def login():
@@ -133,7 +146,7 @@ def login():
 @cross_origin()
 def register():
     data = request.get_json()
-    user_data = {"id_code": data.get('id_code', ''),
+    user_data = {"id_code": data.get('id_code', random_ID(100)),
                  "name": data.get('name', ''),
                  "email": data.get('email'),
                  "password": data.get('password')}

@@ -3,7 +3,7 @@ from datetime import datetime
 import datetime as date
 from functools import wraps
 import jwt
-from flask import Flask, jsonify, request, current_app, render_template
+from flask import Flask, jsonify, request, current_app, render_template , Blueprint
 from flask_cors import cross_origin
 from flask_mail import Message
 from flask_sqlalchemy import SQLAlchemy
@@ -16,6 +16,9 @@ from compile_sol import get_contract_interface, deploy_contract
 from compile_solidity_utils import w3
 from flask import Flask, Response, request, jsonify
 from marshmallow import Schema, fields, ValidationError
+from threading import Lock
+
+
 
 file_path = os.path.abspath(os.getcwd()) + "\database.db"
 
@@ -25,6 +28,8 @@ app.secret_key = 'hze6EPcv0fN_81Bj-nA3d6f45a5fc12445dbac2f59c3b6c7c309f02079d'
 db = SQLAlchemy(app)
 DOMAIN = 'http://localhost:3000/'
 reset_password_url = DOMAIN + 'reset-password?token='
+
+
 
 
 @app.before_first_request
@@ -72,6 +77,7 @@ class Users(db.Model):
     def to_dict(self):
         return dict(id_code=self.id_code, email=self.email, name=self.name)
 
+#db.create_all()
 
 def token_required(f):
     @wraps(f)
@@ -244,3 +250,9 @@ def verify():
 
     return jsonify({"contract_address": contract_address,
                     "data": {"id_code": vaccine_data[0], "is_vaccinated": vaccine_data[1]}}), 200
+
+
+
+if __name__ == '__main__':
+    console.log("here is the main function " )
+    db.create_all()
