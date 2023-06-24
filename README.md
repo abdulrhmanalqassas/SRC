@@ -41,10 +41,22 @@ for v1 , a simple JWT-based auth mechanism is to be used (ACCESS and REFRESH tok
 
  **Auth** :
  ``` 
-/v1/signIn              [POST] 
-/v1/signUp              [POST]
-/v1/signUpVarification  [POST]
+/v1/signIn                      [POST] 
+/v1/signUp                      [POST]
+/v1/signUpVarification          [POST]
 ```
+
+ **Varify** :
+ ``` 
+/v1/varify/:userId/:productId    [POST] 
+```
+
+**addProduct** : 
+
+```
+/v1/addProduct                   [POST] 
+```
+
 
 
 
