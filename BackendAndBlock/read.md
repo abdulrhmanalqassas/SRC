@@ -33,4 +33,21 @@ source env/Scripts/activate
 **pywin32==304** as i am using WSL which is not nessery for this kind of system, still don't know if is going to affect the software or not, but we see.
 
 
+# DATABASE SCHEMA 
+
+**Users** 
+| Column | Type |
+|--------|------|
+| Id     | STRING /UUID |
+| IdCode     | STRING /UUID |
+| First/Last Name | STRING |
+| Passwords | STRING | 
+| E-mail | STRING |
+| contract_address | STRING |
+| UserName | STRING |
+| user_role | STRING | 
+
+
+
+
  
