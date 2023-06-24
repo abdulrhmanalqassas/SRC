@@ -41,9 +41,10 @@ for v1 , a simple JWT-based auth mechanism is to be used (ACCESS and REFRESH tok
 
  **Auth** :
  ``` 
-/v1/signIn                      [POST] 
-/v1/signUp                      [POST]
-/v1/signUpVarification          [POST]
+/v1/auth/signIn                      [POST] 
+/v1/auth/signUp                      [POST]
+/v1/auth/forgot-password             [POST]
+/v1/auth/reset-password              [POST]
 ```
 
  **Verify** :
@@ -54,7 +55,8 @@ for v1 , a simple JWT-based auth mechanism is to be used (ACCESS and REFRESH tok
 **addProduct** : 
 
 ```
-/v1/addProduct                   [POST] 
+/v1/blockchain/create_contract                   [POST] 
+/v1/blockchain/verify-contract                   [POST] 
 ```
 
 

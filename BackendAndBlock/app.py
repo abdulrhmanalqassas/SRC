@@ -122,7 +122,7 @@ def sayHi():
 
 
 
-@app.route('/auth/login/', methods=('POST',))
+@app.route('/v1/auth/signIn/', methods=('POST',))
 @cross_origin()
 def login():
     data = request.get_json()
@@ -142,7 +142,7 @@ def login():
     return response
 
 
-@app.route('/auth/register/', methods=('POST',))
+@app.route('/v1/auth/signUp/', methods=('POST',))
 @cross_origin()
 def register():
     data = request.get_json()
@@ -168,7 +168,7 @@ def register():
         return {"message": "User already exists"}, 409
 
 
-@app.route('/auth/forgot-password/', methods=('POST',))
+@app.route('/v1/auth/forgot-password/', methods=('POST',))
 @cross_origin()
 def forgot_password():
     try:
@@ -196,7 +196,7 @@ def forgot_password():
         raise InternalServerError
 
 
-@app.route('/auth/reset-password/', methods=['POST'])
+@app.route('/v1/auth/reset-password/', methods=['POST'])
 @cross_origin()
 @token_required
 def reset_password(current_user):
@@ -216,7 +216,7 @@ class VaccineSchema(Schema):
 
 
 # api to set new vaccine every api call
-@app.route("/blockchain/create_contract", methods=['POST'])
+@app.route("/v1/blockchain/create_contract", methods=['POST'])
 @cross_origin()
 def transaction():
     contract_interface = get_contract_interface()
@@ -241,7 +241,7 @@ def transaction():
                     "contract_address": contract_address}), 200
 
 
-@app.route("/blockchain/verify-contract", methods=['POST'])
+@app.route("/v1/blockchain/verify-contract", methods=['POST'])
 @cross_origin()
 def verify():
     w3.eth.defaultAccount = w3.eth.accounts[1]
