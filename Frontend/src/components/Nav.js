@@ -8,22 +8,23 @@ export default function Nav() {
   const from = location.state?.from?.pathname || "/";
   return (
     <nav>
+      <div className="imageLogo"> <a href = "/"> <img src="../images/BC_logo.png"/></a></div>
       <h2 className="logo">
-        KS<span>U</span>
+      KAFR EL-SHEIKH <span>University</span>
       </h2>
       <ul>
         <Link to="/Verifi">
-          <li className="li">VACCINE VERIFICATION</li>
-        </Link>
-        <Link to="/State">
-          <li className="li">Change State</li>
+          <li className="li">PRODUCT VERIFICATION</li>
         </Link>
         <Link to="/">
           <li className="li">Home</li>
         </Link>
       </ul>
       <Link to="/login">
-      <p className="btn">log Out</p>
+      <p className="logout">sign In</p>
+      </Link>
+      <Link to="/register">
+      <p className="logout">signup</p>
       </Link>
     </nav>
   );

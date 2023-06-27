@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import axios from "../api/axios";
-
+import {LOGIN_END_POINT} from '../api/axios'
 
 export default function Login() {
     // const { setAuth } = useContext(AuthContext);
@@ -21,7 +21,7 @@ export default function Login() {
       e.preventDefault();
       try {
         axios
-          .post("/auth/login/", {
+          .post(LOGIN_END_POINT , {
             password:password,
             confirm_password:newPassword
           },

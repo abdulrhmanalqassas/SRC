@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import {LOGIN_END_POINT} from "../api/axios"
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,11 +27,9 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(axios.get("http://127.0.0.1:3008/echo"))
-
       axios
         .post(
-          "/auth/login/",
+          LOGIN_END_POINT,
           {
             email: user,
             password: password,

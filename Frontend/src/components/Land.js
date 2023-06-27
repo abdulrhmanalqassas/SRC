@@ -16,14 +16,12 @@ export default function Land() {
         <Nav />
 
         <div className="content">
-          <h4>Hello,{auth.name}</h4>
           <h1>
             the <span>BLOCKCHAIN</span>
           </h1>
-          <h3> VACCINE VERIFICATION SYSTEM</h3>
+          <h3> PRODUCT VERIFICATION SYSTEM , Be early to the future of WEB3</h3>
           <div className="newslatter"></div>
         </div>
-        
       </div>
 
       <section className="about">
@@ -56,14 +54,14 @@ export default function Land() {
         <div className="box">
           <div className="card">
             <i className="fas fa-bars"></i>
-            <h5>VACCINE VERIFICATION </h5>
+            <h5>PRODUCT VERIFICATION </h5>
             <div className="pra">
               <p>
                 verify your vaccine state or other (other is only for admin )
               </p>
             </div>
             <Link to="/Verifi">
-              <div className="button">VACCINE VERIFICATION</div>
+              <div className="button">PRODUCT VERIFICATION</div>
             </Link>
           </div>
 
@@ -97,19 +95,12 @@ export default function Land() {
       <div className="contact-me">
         <p>The coronavirus (COVID-19) vaccines are safe and effective.
            They give you the best protection against COVID-19.</p>
-        <div className="button-two"><a href="https://www.nhs.uk/conditions/
-        coronavirus-covid-19/coronavirus-vaccination/coronavirus-
-        vaccine/">more about the vaccine</a></div>
+        <div className="button-two"><a href="https://www.blockchain.com/">more about the BLOCKCHAIN</a></div>
       </div>
 
       <footer>
         <p>BLOCKCHAIN is the future </p>
 
-        {/* <div className="social">
-			<a href="#"><i className="fab fa-facebook-f"></i></a>
-			<a href="#"><i className="fab fa-instagram"></i></a>
-			<a href="#"><i className="fab fa-dribbble"></i></a>
-		</div> */}
         <p className="end">CopyRight By KSU</p>
       </footer>
     </>
