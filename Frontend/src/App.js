@@ -7,7 +7,7 @@ import Unauth from './components/Unauth';
 import RequireAuth from "./components/RequireAuth"
 import Land from './components/Land';
 import Verifi from './components/Verifi';
-import State from "./components/State";
+import AddContract from "./components/AddContract";
 
 function App() {
 
@@ -19,9 +19,12 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="Unauth" element={<Unauth />} />
-      <Route path="ResetPassword" element={<ResetPassword />} ></Route>
+      
       <Route path="verifi" element={<Verifi />} />
-      <Route path="State" element={<State />} />
+      <Route element={<RequireAuth />}>
+          <Route path="/resetPassword" element={<ResetPassword />} ></Route>
+          <Route path="/addContract" element={<AddContract />} />
+      </Route>
       {/* we want to protect these routes */}
 
    

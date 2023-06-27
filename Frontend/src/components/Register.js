@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../api/axios";
 import AuthContext from "../context/AuthProvider";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-
+import {SIGNUP_END_POINT} from '../api/axios'
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const ID_REGEX = /[A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -69,7 +69,9 @@ export default function Register() {
    
     try{
   
-  axios.post('/auth/register/', {
+  axios.post(
+    SIGNUP_END_POINT, 
+    {
     "id_code": ID,
    "name": user,
    "email": email,
