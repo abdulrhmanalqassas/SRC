@@ -11,9 +11,9 @@
 }
 
 body {
-  background-image:url("../src/images/blockchain.png") ;
+  background-image:url("../src/images/blockchain-background.png") ;
   background-color: #080710;
-  background-size:20%	;
+  background-size:100%	;
   background-repeat: repeat;
 }
 .hero{
