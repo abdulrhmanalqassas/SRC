@@ -9,11 +9,11 @@ export default function Nav() {
   return (
     <nav>
       <h2 className="logo">
-        KS<span>U</span>
+        KAFR EL-SHEIKH<span>UNIVERSITY</span>
       </h2>
       <ul>
-        <Link to="/Verifi">
-          <li className="li">VACCINE VERIFICATION</li>
+        <Link to="/Verify">
+          <li className="li">PRODUCT VERIFICATION</li>
         </Link>
         <Link to="/State">
           <li className="li">Change State</li>
@@ -23,7 +23,10 @@ export default function Nav() {
         </Link>
       </ul>
       <Link to="/login">
-      <p className="btn">log Out</p>
+      <p className="btn">signin</p>
+      </Link>
+      <Link to="/register">
+      <p className="btn">signup</p>
       </Link>
     </nav>
   );

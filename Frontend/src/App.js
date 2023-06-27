@@ -17,7 +17,7 @@ function App() {
       {/* public routes */}
       <Route path="/" element={<Land />} />
       <Route path="/login" element={<Login />} />
-      <Route path="register" element={<Register />} />
+      <Route path="/register" element={<Register />} />
       <Route path="Unauth" element={<Unauth />} />
       
       <Route path="verifi" element={<Verifi />} />
