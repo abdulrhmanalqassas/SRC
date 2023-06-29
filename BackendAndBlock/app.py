@@ -4,7 +4,8 @@ import datetime as date
 from functools import wraps
 import jwt
 from flask import Flask, jsonify, request, current_app, render_template
-from flask_cors import cross_origin
+from flask_cors import CORS, cross_origin
+
 from flask_mail import Message
 from flask_sqlalchemy import SQLAlchemy
 from web3.exceptions import InvalidAddress
@@ -16,9 +17,13 @@ from compile_solidity_utils import w3
 from flask import Flask, Response, request, jsonify
 from marshmallow import Schema, fields, ValidationError
 import random, string
+from flask import Blueprint
 
 
+blueprint = Blueprint('blueprint', __name__)
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + 'blockchain.db'
 app.secret_key = 'hze6EPcv0fN_81Bj-nA3d6f45a5fc12445dbac2f59c3b6c7c309f02079d'
 db = SQLAlchemy(app)
@@ -114,33 +119,82 @@ def token_required(f):
     return _verify
 
 
-@app.route('/', methods=('GET',))
-@cross_origin()
-def sayHi(): 
-    
-    return "Hello world "
-
-
+@app.route('/v1/auth/refresh/', methods=('GET',))
+def refreshAccessToken():
+    refreshToken = request.cookies.get('refresh_token')
+    print ("refresh token ")
+    print(refreshToken)
+    userData = RefreshTokenIsValid(refreshToken)
+    if( userData == None):
+        
+        return jsonify({'message': 'RefreshToken is invalid ', 'authenticated': False}), 401
+    # return new access token 
+    print(userData)
+    response = jsonify(
+        {'accessToken': getNewAccessToken(userData)}) , 200 
+    return response
 
 @app.route('/v1/auth/signIn/', methods=('POST',))
-@cross_origin()
 def login():
     data = request.get_json()
     user = Users.authenticate(**data)
     if not user:
         return jsonify({'message': 'Invalid credentials', 'authenticated': False}), 401
-    print(user.email)
+    
     token = jwt.encode({
         'sub': user.email,
         'iat': datetime.utcnow(),
-        'exp': datetime.utcnow() + date.timedelta(minutes=30)},
+        'exp': datetime.utcnow() + date.timedelta(minutes=1)},
         current_app.config['SECRET_KEY'])
+    
     response = jsonify(
-        {'token': token, "name": user.name, "email": user.email, "id_code": user.id_code,
-         "contract_address": user.contract_address})
+        {'accessToken': token, "name": user.name, "email": user.email, "id_code": user.id_code,
+         "contract_address": user.contract_address}) 
+    
+    
+    response.set_cookie('refresh_token',
+            value =  getNewRefreshToken(user) ,
+            httponly = True ,
+            secure = True ,
+            samesite = 'none' ,
+            max_age= 1000
+            )
 
     return response
 
+
+def getNewRefreshToken(user) :  
+
+    token = jwt.encode({
+        'sub': user.email,
+        'iat': datetime.utcnow(),
+        'exp': datetime.utcnow() + date.timedelta(minutes=15)},
+        current_app.config['SECRET_KEY'])
+    print (token) 
+    return token 
+
+def getNewAccessToken (userEmail) :
+    token = jwt.encode({
+        'sub': userEmail,
+        'iat': datetime.utcnow(),
+        'exp': datetime.utcnow() + date.timedelta(minutes=1)},
+        current_app.config['SECRET_KEY'])
+    return token 
+
+def RefreshTokenIsValid(token):
+    print ("this is token sent ")
+    print (token )
+    try : 
+        data = jwt.decode(token, key=current_app.config['SECRET_KEY'] , algorithms=["HS256"])
+        
+        return data['sub'] 
+    except jwt.ExpiredSignatureError as e :
+        print (e)
+        return None 
+    except (jwt.InvalidTokenError, Exception) as e:
+        print(e)
+        return None 
+     
 
 @app.route('/v1/auth/signUp/', methods=('POST',))
 @cross_origin()
