@@ -20,7 +20,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="Unauth" element={<Unauth />} />
       
-      <Route path="verifi" element={<Verifi />} />
+      <Route path="/verify" element={<Verifi />} />
       <Route element={<RequireAuth />}>
           <Route path="/resetPassword" element={<ResetPassword />} ></Route>
           <Route path="/addContract" element={<AddContract />} />

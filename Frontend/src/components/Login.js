@@ -34,21 +34,27 @@ export default function Login() {
           {
             email: user,
             password: password,
+            
+          },
+          {
+            withCredentials : true,
+            
           }
         )
         .then(function (response) {
-          console.log(response);
-          const token = response.data.token;
+          console.log(`this is the response of signin req : ${response}`);
+          const token = response.data.accessToken;
           const ID = response.data.id_code;
           const email = response.data.email;
           const name = response.data.name;
+
           setAuth({ password, name, email, ID, token });
           localStorage.setItem("token",token)
           localStorage.setItem("ID",ID)
           localStorage.setItem("name",name)
           setUser("");
           setPassword("");
-          navigate(from, { replace: true });
+          navigate("/addContract");
         }).catch(err=>
           {console.log("error msg ",err)
           console.log(err);
