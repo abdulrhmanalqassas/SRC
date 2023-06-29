@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import {SIGNIN_END_POINT} from '../api/axios'
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,29 +27,34 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(axios.get("http://127.0.0.1:3008/echo"))
 
       axios
         .post(
-          "/auth/login/",
+          SIGNIN_END_POINT,
           {
             email: user,
             password: password,
+            
+          },
+          {
+            withCredentials : true,
+            
           }
         )
         .then(function (response) {
-          console.log(response);
-          const token = response.data.token;
+          console.log(`this is the response of signin req : ${response}`);
+          const token = response.data.accessToken;
           const ID = response.data.id_code;
           const email = response.data.email;
           const name = response.data.name;
+
           setAuth({ password, name, email, ID, token });
           localStorage.setItem("token",token)
           localStorage.setItem("ID",ID)
           localStorage.setItem("name",name)
           setUser("");
           setPassword("");
-          navigate(from, { replace: true });
+          navigate("/addContract");
         }).catch(err=>
           {console.log("error msg ",err)
           console.log(err);

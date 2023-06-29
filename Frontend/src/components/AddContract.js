@@ -6,7 +6,6 @@ import Nav from "./Nav";
 
 
 
-
 export default function AddContract() {
   const navigate = useNavigate();
   const location = useLocation();

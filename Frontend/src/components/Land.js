@@ -20,7 +20,7 @@ export default function Land() {
           <h1>
             the <span>BLOCKCHAIN</span>
           </h1>
-          <h3> VACCINE VERIFICATION SYSTEM</h3>
+          <h3> PRODUCT VERIFICATION SYSTEM</h3>
           <div className="newslatter"></div>
         </div>
         
@@ -39,7 +39,7 @@ export default function Land() {
               help users and governments to Check and insure the vaccine state
               of the citizens. This system will be implemented and designed to
               ens ure the   authenticity and validity of the data using the
-              blockchain techn ology and keeping in mind being user friendly and
+              blockchain technology and keeping in mind being user friendly and
               easy to use on any devise that use a web browser and almost
               impossible to be hacked
             </p>

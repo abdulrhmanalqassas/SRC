@@ -11,9 +11,9 @@
 }
 
 body {
-  background-image:url("../src/images/blockchain.png") ;
+  background-image:url("../src/images/blockchain-background.png") ;
   background-color: #080710;
-  background-size:20%	;
+  background-size:100%	;
   background-repeat: repeat;
 }
 .hero{
@@ -25,7 +25,7 @@ body {
 }
 nav{
 	display: flex;
-  background-color: black;
+  background-color: rgb(110, 179, 232);
 	align-items: center;
 	justify-content: space-between;
 	padding-top: 45px;
