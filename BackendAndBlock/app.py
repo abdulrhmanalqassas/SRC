@@ -82,11 +82,13 @@ class Users(db.Model):
     def to_dict(self):
         return dict(id_code=self.id_code, email=self.email, name=self.name)
 
+    
 
 def token_required(f):
+    
     @wraps(f)
     def _verify(*args, **kwargs):
-        print(request.get_json())
+        print("from decorator ")
         auth_headers = request.headers.get('Authorization', '').split()
         print(auth_headers)
 
@@ -111,23 +113,44 @@ def token_required(f):
                 raise RuntimeError('User not found')
             return f(user, *args, **kwargs)
         except jwt.ExpiredSignatureError:
-            return jsonify(expired_msg), 401  # 401 is Unauthorized HTTP status code
+            return jsonify(expired_msg), 403  # 403 FORBIDDEN, means i understand your req but there is an auth problem 
         except (jwt.InvalidTokenError, Exception) as e:
             print(e)
-            return jsonify(invalid_msg), 401
+            return jsonify(invalid_msg), 401 # unAutherized, means there is a leak of auth info 
+        return f(*args, **kwargs)
 
     return _verify
 
+def my_decorator(f) :
+    @wraps(f)
+    def wrapper (*args , **kwds) :
+        print('Calling decorated function')
+        print("from decorator ")
+        auth_headers = request.headers.get('Authorization', '').split()
+        print(auth_headers)
+        
+        return f(*args, **kwds)
+    return wrapper
 
+
+# this function is only for test porpuse, it is used for testing the auth system 
+@app.route('/fail', methods=('POST',))
+@token_required
+def fail(): 
+     
+    return jsonify({'message': 'accessToken is is valid  ', 'authenticated': True}), 200
+        
+   
 @app.route('/v1/auth/refresh/', methods=('GET',))
 def refreshAccessToken():
     refreshToken = request.cookies.get('refresh_token')
     print ("refresh token ")
     print(refreshToken)
-    userData = RefreshTokenIsValid(refreshToken)
+    userData = decodeToken(refreshToken)
     if( userData == None):
-        
-        return jsonify({'message': 'RefreshToken is invalid ', 'authenticated': False}), 401
+        return jsonify({'message': 'RefreshToken is invalid ', 'authenticated': False}), 403
+    
+    
     # return new access token 
     print(userData)
     response = jsonify(
@@ -144,7 +167,7 @@ def login():
     token = jwt.encode({
         'sub': user.email,
         'iat': datetime.utcnow(),
-        'exp': datetime.utcnow() + date.timedelta(minutes=1)},
+        'exp': datetime.utcnow() + date.timedelta(minutes=3)},
         current_app.config['SECRET_KEY'])
     
     response = jsonify(
@@ -157,7 +180,7 @@ def login():
             httponly = True ,
             secure = True ,
             samesite = 'none' ,
-            max_age= 1000
+            
             )
 
     return response
@@ -168,7 +191,7 @@ def getNewRefreshToken(user) :
     token = jwt.encode({
         'sub': user.email,
         'iat': datetime.utcnow(),
-        'exp': datetime.utcnow() + date.timedelta(minutes=15)},
+        'exp': datetime.utcnow() + date.timedelta(minutes=1)},
         current_app.config['SECRET_KEY'])
     print (token) 
     return token 
@@ -177,11 +200,11 @@ def getNewAccessToken (userEmail) :
     token = jwt.encode({
         'sub': userEmail,
         'iat': datetime.utcnow(),
-        'exp': datetime.utcnow() + date.timedelta(minutes=1)},
+        'exp': datetime.utcnow() + date.timedelta(minutes=0.5)},
         current_app.config['SECRET_KEY'])
     return token 
 
-def RefreshTokenIsValid(token):
+def decodeToken(token):
     print ("this is token sent ")
     print (token )
     try : 
@@ -264,6 +287,7 @@ def reset_password(current_user):
     return 'Password reset was successful', 200
 
 
+
 class VaccineSchema(Schema):
     id_card = fields.String(required=True)
     is_vaccinated = fields.String(required=True)
@@ -272,7 +296,9 @@ class VaccineSchema(Schema):
 # api to set new vaccine every api call
 @app.route("/v1/blockchain/create_contract", methods=['POST'])
 @cross_origin()
+@token_required
 def transaction():
+    
     contract_interface = get_contract_interface()
     w3.eth.defaultAccount = w3.eth.accounts[1]
     abi = contract_interface["abi"]
