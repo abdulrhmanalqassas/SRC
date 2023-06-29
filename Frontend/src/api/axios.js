@@ -18,3 +18,4 @@ export const axiosPrivate = axios.create(
 export const SIGNIN_END_POINT = "/v1/auth/signIn/"
 export const SIGNUP_END_POINT = "/v1/auth/signUp/"
 export const REFRESH_END_POINT = "/v1/auth/refresh/"
+export const AddContract_END_POINT = "/v1/blockchain/create_contract"
