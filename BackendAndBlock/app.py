@@ -83,7 +83,7 @@ class Users(db.Model):
         return dict(id_code=self.id_code, email=self.email, name=self.name)
 
     
-
+# method decorator for token requirements 
 def token_required(f):
     
     @wraps(f)
@@ -150,12 +150,13 @@ def refreshAccessToken():
     if( userData == None):
         return jsonify({'message': 'RefreshToken is invalid ', 'authenticated': False}), 403
     
-    
     # return new access token 
     print(userData)
     response = jsonify(
         {'accessToken': getNewAccessToken(userData)}) , 200 
     return response
+
+
 
 @app.route('/v1/auth/signIn/', methods=('POST',))
 def login():
@@ -164,11 +165,8 @@ def login():
     if not user:
         return jsonify({'message': 'Invalid credentials', 'authenticated': False}), 401
     
-    token = jwt.encode({
-        'sub': user.email,
-        'iat': datetime.utcnow(),
-        'exp': datetime.utcnow() + date.timedelta(minutes=3)},
-        current_app.config['SECRET_KEY'])
+    
+    token = getNewAccessToken(user.email)
     
     response = jsonify(
         {'accessToken': token, "name": user.name, "email": user.email, "id_code": user.id_code,
@@ -233,14 +231,10 @@ def register():
         user = Users(**user_data)
         db.session.add(user)
         db.session.commit()
-        token = jwt.encode({
-            'sub': user.email,
-            'iat': datetime.utcnow(),
-            'exp': datetime.utcnow() + date.timedelta(minutes=30)},
-            current_app.config['SECRET_KEY'])
+        
         result = user.to_dict()
-        result['token'] = token
-        return jsonify(result), 201
+        
+        return jsonify(result), 201 # CREATED
     else:
         return {"message": "User already exists"}, 409
 
