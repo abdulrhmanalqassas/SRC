@@ -54,7 +54,7 @@ export default function Login() {
           localStorage.setItem("name",name)
           setUser("");
           setPassword("");
-          navigate("/addContract");
+          navigate("/addContract"); 
         }).catch(err=>
           {console.log("error msg ",err)
           console.log(err);

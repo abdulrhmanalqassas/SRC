@@ -10,7 +10,7 @@ const useAxiosPrivate = () => {
     const {auth} = useAuth()
 
     useEffect( ()=> {
-
+       // this is for GET req 
         const requestIntercept = axiosPrivate.interceptors.request.use(
             config => {
                 if (!config.headers['Authorization']) {
@@ -20,13 +20,15 @@ const useAxiosPrivate = () => {
             }, (error) => Promise.reject(error)
         );
 
-         
-        const responseIntercept = axiosPrivate.interceptors.request.use(
+        // this is for POST Req 
+        const responseIntercept = axiosPrivate.interceptors.response.use(
             response => response,
-
+            
             async(error) => {
+                console.log("this is error in middlware ")
+                console.log(error)
                 const prevRequest = error?.config
-                if(error?.response?.status === 403 && !prevRequest?.sent) {
+                if((error?.response?.status === 401 || error?.response?.status === 403 ) && !prevRequest?.sent) {
                     prevRequest.sent = true 
                     const accessToken = await refresh()
                     prevRequest.headers['Authorization'] = `Bearer ${accessToken}`
