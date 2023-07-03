@@ -1,25 +1,26 @@
 
-### Install all requirements for the project 
+# **Install all requirements for the project** 
 ```
 pip install -r req.txt
 ```
+> 📝 make sure that you are on the path that the req.txt file exists.
+
+<br/>
 
 
-### install ganache-cli using npm 
-**make sure that npm installed** 
-``` 
-npm install -g ganache-cli
-```
-### Install enviroment 
+## **Install enviroment** 
 ```
 pip install virtualenv
 ```
-### make another inviroment
-**you can skip this step and use the exsiting env folder** 
+## **Make another inviroment**
+> 📝 you can skip this step and use the existing env folder
+
+<br/>
+
 ```
 virtualenv venv
 ```
-### Activate the enviroment 
+### **Activate the enviroment** 
 
 **in windows**
 ``` 
@@ -29,9 +30,53 @@ venv\Scripts\activate.bat
 ```
 source env/Scripts/activate
 ```
-### i have deprecated packages:  
-**pywin32==304** as i am using WSL which is not nessery for this kind of system, still don't know if it is going to affect the software or not, but we see.
-**NOTE** you may need to add **pywin32==304** into req.txt if you uses Windows OS
+<br/>
+
+# I have deprecated packages:  
+```
+pywin32==304 as i am using WSL which is not nessery for this kind of system, still don't know if it is going to affect the software or not, but we see.
+**NOTE** you may need to add pywin32==304 into req.txt if you uses Windows OS
+```
+
+### if you are using vs code or any other editors/IDE 
+if you face annotation saying *Import **package name** could not be resolvedPylancereportMissingImports*
+you may need to re-install it or install the requirements again - *the first step-* 
+
+<br/>
+
+# RUN BlockChain 
+
+## Truffle
+```
+npm install -g truffle
+```
+and test by 
+```
+truffle version
+```
+
+
+<br/>
+
+## ganache-cli 
+``` 
+npm install -g ganache-cli
+OR 
+npm install ganache --global
+```
+after that type 
+``` 
+ganache
+```
+it will open a connection on port 8545
+> 📝 make sure that **npm ^v14** and **git** installed
+<br/>
+
+> 📝 try to aviod ganache ui, it doesn't work for me 
+
+<br/>
+<br/>
+
 
 
 # DATABASE SCHEMA 
