@@ -75,9 +75,39 @@ it will open a connection on port 8545
 > 📝 try to aviod ganache ui, it doesn't work for me 
 
 <br/>
+
+# Start writing your first cotract 
+
+**STEP 1** 
+```
+truffle unbox metacoin
+
+```
+**STEP 2**
+```
+write your first contract 
+```
+**STEP3** 
+```
+truflle compile 
+```
+take the name of your contract and add it in `1_deploy_contracts.js` file <br>
+ex :   `deployer.deploy(myContract);` then : go to `truffle-config.js` and uncomment these lines <br>
+```   
+development: {
+     host: "127.0.0.1",     // Localhost (default: none)
+     port: 8545,            // Standard Ethereum port (default: none)
+     network_id: "*",       // Any network (default: none)
+    },
+```
+**LAST STEP**
+###  the following should be run after running the ganache netword above 
+```
+truffle migrate 
+```
+this command is responsible for deploying your contract to the ethereum node 
+
 <br/>
-
-
 
 # DATABASE SCHEMA 
 
