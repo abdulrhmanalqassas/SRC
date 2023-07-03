@@ -5,8 +5,8 @@ from web3 import Web3
 from solcx import compile_files, link_code, compile_source
 
 #Sol compiler
-solcx.install_solc(version='0.8.9')
-solcx.set_solc_version('0.8.9')
+solcx.install_solc(version='0.4.21')
+solcx.set_solc_version('0.4.21')
 # web3.py instance
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
 
