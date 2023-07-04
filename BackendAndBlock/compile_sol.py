@@ -1,4 +1,5 @@
 import json
+import sys
 
 import solcx
 from web3 import Web3
@@ -38,4 +39,15 @@ def get_contract_interface():
         contracts = compile_files(['vaccine-card.sol'])
         # separate main file and link file
         main_contract = contracts.pop("vaccine-card.sol:vaccineRecords")
+        return main_contract
+    
+def get_Product_Contract_Interface():
+    solcx.install_solc(version='0.4.21')
+    solcx.set_solc_version('0.4.21')
+    with open('Product-card.sol', 'r') as f:
+        source = f.read()
+        solcx.compile_source(source)
+        contracts = compile_files(['Product-card.sol'])
+        # separate main file and link file
+        main_contract = contracts.pop("Product-card.sol:productRecords")
         return main_contract
