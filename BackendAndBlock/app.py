@@ -309,14 +309,10 @@ def reset_password(current_user):
     db.session.commit()
     return "Password reset was successful", 200
 
-
-class VaccineSchema(Schema):
-    id_card = fields.String(required=True)
-    is_vaccinated = fields.String(required=True)
-
-
+ 
 # api to set new vaccine every api call
 @app.route("/v1/blockchain/create_contract", methods=["POST"])
+@token_required
 def transaction():
     auth_headers = request.headers.get("Authorization", "").split()
     userEmail = decodeToken(auth_headers[1]) or "ammarhamed"
