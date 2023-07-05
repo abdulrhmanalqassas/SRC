@@ -35,13 +35,16 @@ export default function Land() {
               SAVE <span>& SECURE</span>
             </h5>
             <p>
-              This software system will be a web abb on top of a block chain to
-              help users and governments to Check and insure the vaccine state
-              of the citizens. This system will be implemented and designed to
-              ens ure the   authenticity and validity of the data using the
-              blockchain technology and keeping in mind being user friendly and
-              easy to use on any devise that use a web browser and almost
-              impossible to be hacked
+            A blockchain-based product verification system is a technological solution that enables
+             consumers to verify the authenticity of a product by checking its unique digital signature
+              recorded on a blockchain ledger. The system works by assigning a digital signature to each
+               product during its production, which is then recorded on a blockchain network. 
+               The digital signature is a unique code that cannot be replicated or altered,
+                and it serves as a tamper-proof record of the product's origin and authenticity.
+                 Consumers can scan the product's digital signature using a smartphone app to access the blockchain
+                  ledger and verify the product's authenticity. 
+                  This system provides a secure and transparent way for consumers to authenticate products,
+                   which can help to prevent counterfeiting and build trust between consumers and manufacturers.
             </p>
             <button type="button">Let's Talk</button>
           </div>
@@ -56,61 +59,47 @@ export default function Land() {
         <div className="box">
           <div className="card">
             <i className="fas fa-bars"></i>
-            <h5>VACCINE VERIFICATION </h5>
+            <h5>PRODUCT VERIFICATION </h5>
             <div className="pra">
               <p>
-                verify your vaccine state or other (other is only for admin )
+                verify your Product or other (other is only for admin )
               </p>
             </div>
-            <Link to="/Verifi">
-              <div className="button">VACCINE VERIFICATION</div>
+            <Link to="/Verify">
+              <div className="button">PRODUCT VERIFICATION</div>
             </Link>
           </div>
 
           <div className="card">
             <i className="far fa-user"></i>
-            <h5>VACCINE STATE</h5>
+            <h5>ADD YOUR PRODUCT TO BE KEPT IN BLOCKCHAIN</h5>
             <div className="pra">
               <p>
-                change the user vaccine state all over the blockchain to Check
-                it all over the world
+                Add your product in the blockchain to prevent it from being faked 
               </p>
-              <Link to="/">
-                <div className="button">change state</div>
+              <Link to="/register">
+                <div className="button">ADD PRODUCT</div>
               </Link>
             </div>
           </div>
 
           <div className="card">
             <i className="far fa-bell"></i>
-            <h5>SECURE information</h5>
+            <h5>SECURE INFORMATION</h5>
             <div className="pra">
               <p>
-                all of theinformation is SECURE and Save aginst hackers dnd data
-                vilations
+                all of the information is SECURE and Save against hackers dnd data
+                violations
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="contact-me">
-        <p>The coronavirus (COVID-19) vaccines are safe and effective.
-           They give you the best protection against COVID-19.</p>
-        <div className="button-two"><a href="https://www.nhs.uk/conditions/
-        coronavirus-covid-19/coronavirus-vaccination/coronavirus-
-        vaccine/">more about the vaccine</a></div>
-      </div>
-
       <footer>
         <p>BLOCKCHAIN is the future </p>
 
-        {/* <div className="social">
-			<a href="#"><i className="fab fa-facebook-f"></i></a>
-			<a href="#"><i className="fab fa-instagram"></i></a>
-			<a href="#"><i className="fab fa-dribbble"></i></a>
-		</div> */}
-        <p className="end">CopyRight By KSU</p>
+        <p className="end">CopyRight By.KAFR EL-SHEIKH UNIVERSITY </p>
       </footer>
     </>
   );
