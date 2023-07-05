@@ -10,7 +10,6 @@ const useAxiosPrivate = () => {
     const {auth} = useAuth()
 
     useEffect( ()=> {
-       // this is for GET req 
         const requestIntercept = axiosPrivate.interceptors.request.use(
             config => {
                 if (!config.headers['Authorization']) {
@@ -20,12 +19,11 @@ const useAxiosPrivate = () => {
             }, (error) => Promise.reject(error)
         );
 
-        // this is for POST Req 
         const responseIntercept = axiosPrivate.interceptors.response.use(
             response => response,
             
             async(error) => {
-                console.log("this is error in middlware ")
+                console.log("this is error in middleware ")
                 console.log(error)
                 const prevRequest = error?.config
                 if((error?.response?.status === 401 || error?.response?.status === 403 ) && !prevRequest?.sent) {

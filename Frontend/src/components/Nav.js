@@ -42,7 +42,9 @@ export default function Nav() {
         <p className="btn">logout</p>
         </Link>
       }
-      <button onClick={()=>getRefreshToken()}>refresh your access token </button>
     </nav>
   );
 }
+
+
+
