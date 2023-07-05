@@ -7,12 +7,6 @@ from datetime import datetime
 from functools import wraps
 
 import jwt
-from compile_sol import (
-    deploy_contract,
-    get_contract_interface,
-    get_Product_Contract_Interface,
-)
-from compile_solidity_utils import w3
 from flask import (
     Blueprint,
     Flask,
@@ -23,12 +17,19 @@ from flask import (
     request,
 )
 from flask_cors import CORS, cross_origin
-from flask_mail import Message
+from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import Schema, ValidationError, fields
 from web3.exceptions import InvalidAddress
 from werkzeug.exceptions import InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+
+from compile_sol import (
+    deploy_contract,
+    get_contract_interface,
+    get_Product_Contract_Interface,
+)
+from compile_solidity_utils import w3
 
 blueprint = Blueprint("blueprint", __name__)
 app = Flask(__name__)
@@ -37,7 +38,17 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + "blockchain.db"
 app.secret_key = "hze6EPcv0fN_81Bj-nA3d6f45a5fc12445dbac2f59c3b6c7c309f02079d"
 db = SQLAlchemy(app)
 DOMAIN = "http://localhost:3000/"
-reset_password_url = DOMAIN + "reset-password?token="
+reset_password_url = DOMAIN + "resetPassword?token="
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'ammarhamed64@gmail.com'
+app.config['MAIL_PASSWORD'] = 'rgiolcrlybqzdhqb'
+app.config['MAIL_USE_TLS'] = True
+
+
+mail = Mail(app)
+
 
 
 @app.before_first_request
@@ -125,21 +136,31 @@ def token_required(f):
             data = jwt.decode(
                 token, current_app.config["SECRET_KEY"], algorithms=["HS256"]
             )
+            print("this is user data ")
+            print(data["sub"])
             user = Users.query.filter_by(email=data["sub"]).first()
+            print(user)
             if not user:
                 raise RuntimeError("User not found")
-            return f(user, *args, **kwargs)
-        except jwt.ExpiredSignatureError:
+            print("iam here ")
+            return f(user)
+        except (jwt.ExpiredSignatureError):
             return (
                 jsonify(expired_msg),
                 403,
             )  # 403 FORBIDDEN, means i understand your req but there is an auth problem
-        except (jwt.InvalidTokenError, Exception) as e:
+        except  jwt.InvalidTokenError: 
+            return (jsonify(expired_msg),
+                401
+                )
+
+        except (Exception) as e:
+            print("error ecures here ")
             print(e)
             return (
-                jsonify(invalid_msg),
-                401,
-            )  # unAutherized, means there is a leak of auth info
+                jsonify({"message": "%s"%e}),
+                500,
+            )  
         return f(*args, **kwargs)
 
     return _verify
@@ -147,8 +168,11 @@ def token_required(f):
 
 # this function is only for test porpuse, it is used for testing the auth system
 @app.route("/", methods=("GET",))
-def HI():
-    return jsonify({"message": "HI FROM OUT LOCALHOST   ", "authenticated": True}), 200
+@token_required
+def HI(current_user):
+    if(current_user):
+        return jsonify({"message": "DONE ", "authenticated": True}), 200
+    return jsonify({"message": "FAILED   ", "authenticated": False }), 400
 
 
 @app.route("/v1/auth/refresh/", methods=("GET",))
@@ -184,7 +208,6 @@ def login():
             "name": user.name,
             "email": user.email,
             "id_code": user.id_code,
-            "contract_address": user.contract_address,
         }
     )
 
@@ -204,7 +227,7 @@ def getNewRefreshToken(user):
         {
             "sub": user.email,
             "iat": datetime.utcnow(),
-            "exp": datetime.utcnow() + date.timedelta(minutes=1),
+            "exp": datetime.utcnow() + date.timedelta(minutes=100),
         },
         current_app.config["SECRET_KEY"],
     )
@@ -217,9 +240,10 @@ def getNewAccessToken(userEmail):
         {
             "sub": userEmail,
             "iat": datetime.utcnow(),
-            "exp": datetime.utcnow() + date.timedelta(minutes=2),
+            "exp": datetime.utcnow() + date.timedelta(minutes=100),
         },
         current_app.config["SECRET_KEY"],
+        algorithm="HS256"
     )
     return token
 
@@ -285,11 +309,15 @@ def forgot_password():
             },
             current_app.config["SECRET_KEY"],
         )
+        print("above")
+        print(user.email)
         url = reset_password_url + reset_token
-        msg = Message("Forgot your password?", recipients=[user.email])
-        msg.body = render_template("reset_password.txt", url=url, name=user.first_name)
-        msg.html = render_template("reset_password.html", url=url)
+        tempPass = "admin23!2#%s$hash123798" %(user.name )
+        msg = Message(subject = "Forgot your password?",sender='no-reply@gmail.com',  recipients=[user.email])
+        msg.body = "Hey %s, sending you this email from my Product Verifiction system , use the this temporarly password for this atempt and change later : <%s>" % (user.name ,tempPass )
         mail.send(msg)
+        user.password = generate_password_hash(tempPass, method="sha256")
+        db.session.commit()
         return "Reset email sent", 200
     except Exception as e:
         print(e.__doc__)
@@ -297,7 +325,6 @@ def forgot_password():
 
 
 @app.route("/v1/auth/reset-password/", methods=["POST"])
-@cross_origin()
 @token_required
 def reset_password(current_user):
     body = request.get_json()
@@ -313,9 +340,10 @@ def reset_password(current_user):
 # api to set new vaccine every api call
 @app.route("/v1/blockchain/create_contract", methods=["POST"])
 @token_required
-def transaction():
+def transaction(user):
+    print(user)
     auth_headers = request.headers.get("Authorization", "").split()
-    userEmail = decodeToken(auth_headers[1]) or "ammarhamed"
+    userEmail = user.email
     result = request.get_json()
     is_fake = False
     product_id = result["product_code"]
@@ -334,7 +362,7 @@ def transaction():
     print(tx_receipt)
     product_data = contract.functions.getProduct().call()
 
-    user = Users.query.filter_by(email=userEmail).first()
+    #user = Users.query.filter_by(email=userEmail).first()
     db_product = {
         "id" : product_id,
         "userId": user.id,
@@ -363,11 +391,13 @@ def verify():
     w3.eth.defaultAccount = w3.eth.accounts[1]
     data = request.get_json()
     id_code = data.get("productId")
+    print(id_code)
     if id_code is None:
         return "product id is required", 400
     singleProduct = Product.query.filter_by(id=id_code).first()
+    print(singleProduct)
     if singleProduct is None:
-        return "no product with this id address", 400
+        return "no product with this id ", 400
 
     contract_address = singleProduct.contract_address
     contract_interface = get_Product_Contract_Interface()
