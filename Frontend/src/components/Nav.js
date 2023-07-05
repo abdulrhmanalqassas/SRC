@@ -8,6 +8,7 @@ export default function Nav() {
   const navigate = useNavigate();
   const location = useLocation();
   const {auth} = useAuth()
+  
   const from = location.state?.from?.pathname || "/";
 
   async function getRefreshToken() {
@@ -40,6 +41,11 @@ export default function Nav() {
       {auth.token &&
         <Link to="/logout">
         <p className="btn">logout</p>
+        </Link>
+      }
+      {auth.token &&
+        <Link to="/resetPassword">
+        <p className="btn">Reset Password </p>
         </Link>
       }
     </nav>

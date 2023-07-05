@@ -1,6 +1,9 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
+import {RESET_PASS_END_POINT} from '../api/axios'
 import axios from "../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import Nav from "./Nav";
 
 
 export default function Login() {
@@ -12,7 +15,7 @@ export default function Login() {
     const [newPassword, setNewPassword] = useState("");  
     const [errMsg, setErrMsg] = useState("");
     const [success,setSuccess]= useState("");
-  
+    const axiosPrivate = useAxiosPrivate()
     useEffect(() => {
       userRef.current.focus();
     }, []);
@@ -20,15 +23,12 @@ export default function Login() {
     const handleSubmit = (e) => {
       e.preventDefault();
       try {
-        axios
-          .post("/auth/login/", {
+        axiosPrivate
+          .post(RESET_PASS_END_POINT, {
             password:password,
             confirm_password:newPassword
           },
-          {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: true
-          })
+          )
           .then(function (response) {
             console.log(response);
             setSuccess(response.data)
@@ -47,18 +47,18 @@ export default function Login() {
           setErrMsg('Login Failed');
         
       }
-      
-  
       }
     };
   
     return (
+      <>
+      < Nav style={{margin:"200px"}} />
+      
+      
       
       <section className="blur-container">
         
         <div className="background">
-          <div className="shape"></div>
-          <div className="shape"></div>
         </div>
   
         <form onSubmit={handleSubmit}>
@@ -90,10 +90,11 @@ export default function Login() {
           ></input>
   
   
-          <button disabled={password && newPassword? false : true}> Login</button>
+          <button disabled={password && newPassword? false : true}> RESET</button>
   
         </form>
       </section>
+      </>
     );
   }
   

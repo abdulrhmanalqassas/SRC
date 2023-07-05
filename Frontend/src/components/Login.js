@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {SIGNIN_END_POINT} from '../api/axios'
 import { ForgotPass } from "./ForgotPass";
+import Nav from "./Nav";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -44,8 +45,8 @@ export default function Login() {
           }
         )
         .then(function (response) {
-          console.log(`this is the response of signin req :`);
-          console.log(response.data)
+          console.log(`this is the response :`);
+          console.log(response)
           const token = response.data.accessToken;
           const ID = response.data.id_code;
           const email = response.data.email;
@@ -75,10 +76,11 @@ export default function Login() {
   ;
 
   return (
+    <>
+    < Nav style={{margin:"200px"}} />
     <section className="blur-container">
       <div className="background">
-        <div className="shape"></div>
-        <div className="shape"></div>
+
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -126,5 +128,6 @@ export default function Login() {
         </p>
       </form>
     </section>
+    </>
   );
 }

@@ -24,9 +24,9 @@ function App() {
       <Route path="Unauth" element={<Unauth />} />
       <Route path="/verify" element={<Verifi />} />
       <Route path="/forgotPass" element={<ForgotPass />} />
-
+      
         <Route element={<RequireAuth />}>
-              <Route path="/resetPassword" element={<ResetPassword />} />
+              <Route path="/resetPassword" element={<ResetPassword />} /> 
               <Route path="/addContract" element={<AddContract />} />
         </Route>
       {/* we want to protect these routes */}
