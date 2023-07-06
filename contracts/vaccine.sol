@@ -21,7 +21,7 @@ contract vaccineRecords {
 
   // get user public function
   // This is similar to getting object from db.
-  function getVaccine() public returns (string memory , bool) {
+  function getVaccine() public view returns (string memory , bool) {
     return (vaccine_obj.id_code, vaccine_obj.is_vaccinated);
   }
 

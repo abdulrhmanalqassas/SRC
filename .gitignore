@@ -7,8 +7,8 @@ Frontend/.pnp
 .exe
 .cache
 
-/BackendAndBlock/node_modules
-/Frontend/node_modules
+BackendAndBlock/node_modules
+Frontend/node_modules
 # testing
 /coverage
 .vscode/

@@ -2,6 +2,9 @@ import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import {SIGNIN_END_POINT} from '../api/axios'
+import { ForgotPass } from "./ForgotPass";
+import Nav from "./Nav";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -27,27 +30,35 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+
       axios
         .post(
-          "/auth/login/",
+          SIGNIN_END_POINT,
           {
             email: user,
             password: password,
+            
+          },
+          {
+            withCredentials : true,
+            
           }
         )
         .then(function (response) {
-          console.log(response);
-          const token = response.data.token;
+          console.log(`this is the response :`);
+          console.log(response)
+          const token = response.data.accessToken;
           const ID = response.data.id_code;
           const email = response.data.email;
           const name = response.data.name;
+
           setAuth({ password, name, email, ID, token });
           localStorage.setItem("token",token)
           localStorage.setItem("ID",ID)
           localStorage.setItem("name",name)
           setUser("");
           setPassword("");
-          navigate(from, { replace: true });
+          navigate("/addContract"); 
         }).catch(err=>
           {console.log("error msg ",err)
           console.log(err);
@@ -65,10 +76,11 @@ export default function Login() {
   ;
 
   return (
+    <>
+    < Nav style={{margin:"200px"}} />
     <section className="blur-container">
       <div className="background">
-        <div className="shape"></div>
-        <div className="shape"></div>
+
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -98,7 +110,15 @@ export default function Login() {
         ></input>
 
         <button disabled={password && user ? false : true}> Login</button>
-
+      <br/>
+        <p>
+        Did you forget you pass? use link below 
+          <br />
+          <span className="line">
+            <Link to="/forgotPass">forgotten password?</Link>
+          </span>
+        </p>
+        <br/>
         <p>
           Need an Account?
           <br />
@@ -106,8 +126,8 @@ export default function Login() {
             <Link to="/register">Sign Up</Link>
           </span>
         </p>
-        
       </form>
     </section>
+    </>
   );
 }
