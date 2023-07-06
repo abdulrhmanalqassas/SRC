@@ -43,7 +43,7 @@ reset_password_url = DOMAIN + "resetPassword?token="
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'ammarhamed64@gmail.com'
-app.config['MAIL_PASSWORD'] = 'rgiolcrlybqzdhqb'
+app.config['MAIL_PASSWORD'] = 'fakemake'
 app.config['MAIL_USE_TLS'] = True
 
 
